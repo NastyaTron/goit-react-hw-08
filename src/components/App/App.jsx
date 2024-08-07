@@ -7,6 +7,9 @@ import { selectIsRefreshing } from "../../redux/auth/selectors";
 import RestrictedRoute from "../RestrictedRoute";
 import PrivateRoute from "../PrivateRoute";
 
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
+
 const HomePage = lazy(() => import("../../pages/HomePage/HomePage"));
 const RegistrationPage = lazy(() =>
   import("../../pages/RegistrationPage/RegistrationPage")
@@ -28,10 +31,32 @@ export default function App() {
   }, [dispatch]);
 
   return isRefreshing ? (
-    <div>Refreshing user please wait</div>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+      <CircularProgress />
+    </Box>
   ) : (
     <Layout>
-      <Suspense fallback={<p>Loading page...</p>}>
+      <Suspense
+        fallback={
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100vh",
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        }
+      >
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route

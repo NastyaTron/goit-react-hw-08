@@ -1,10 +1,14 @@
-import AppBar from "../AppBar/AppBar";
+import CustomAppBar from "../AppBar/AppBar";
+
+import Container from "@mui/material/Container";
 
 export default function Layout({ children }) {
   return (
     <div>
-      <AppBar />
-      <main>{children}</main>
+      <CustomAppBar />
+      <Container>
+        <main>{children}</main>
+      </Container>
     </div>
   );
 }

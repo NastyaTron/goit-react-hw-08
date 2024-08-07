@@ -1,4 +1,4 @@
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { ErrorMessage, Form, Formik } from "formik";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { logIn } from "../../redux/auth/operations";
@@ -13,6 +13,11 @@ const UserSchema = Yup.object().shape({
     .required("Required"),
 });
 
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+
 export default function LoginForm() {
   const dispatch = useDispatch();
 
@@ -26,19 +31,56 @@ export default function LoginForm() {
       onSubmit={handleSubmit}
       validationSchema={UserSchema}
     >
-      <Form>
-        <div>
-          <label>Email</label>
-          <Field type="email" name="email" />
-          <ErrorMessage name="email" />
-        </div>
-        <div>
-          <label>Password</label>
-          <Field type="password" name="password" />
-          <ErrorMessage name="password" />
-        </div>
-        <button type="submit">Log In</button>
-      </Form>
+      {({ errors, touched, handleChange, handleBlur }) => (
+        <Form>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              mt: 4,
+            }}
+          >
+            <Typography variant="h5" component="h1" sx={{ mb: 2 }}>
+              Login
+            </Typography>
+            <TextField
+              fullWidth
+              id="email"
+              name="email"
+              label="Email"
+              type="email"
+              variant="outlined"
+              margin="normal"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              helperText={<ErrorMessage name="email" />}
+              error={touched.email && Boolean(errors.email)}
+            />
+            <TextField
+              fullWidth
+              id="password"
+              name="password"
+              label="Password"
+              type="password"
+              variant="outlined"
+              margin="normal"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              helperText={<ErrorMessage name="password" />}
+              error={touched.password && Boolean(errors.password)}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              sx={{ mt: 3 }}
+            >
+              Log In
+            </Button>
+          </Box>
+        </Form>
+      )}
     </Formik>
   );
 }
