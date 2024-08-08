@@ -1,6 +1,6 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { selectContacts } from "./selectors";
-import { selectNameFilter } from "../filters/selectors";
+import { selectNameFilter, selectNumberFilter } from "../filters/selectors";
 import { addContact, deleteContact, fetchContacts } from "./operations";
 import { logOut } from "../auth/operations";
 
@@ -65,10 +65,12 @@ const slice = createSlice({
 });
 
 export const selectFelteredContacts = createSelector(
-  [selectContacts, selectNameFilter],
-  (contacts, filter) => {
-    return contacts.filter((contact) =>
-      contact.name.toLowerCase().includes(filter.toLowerCase())
+  [selectContacts, selectNameFilter, selectNumberFilter],
+  (contacts, nameFilter, numberFilter) => {
+    return contacts.filter(
+      (contact) =>
+        contact.name.toLowerCase().includes(nameFilter.toLowerCase()) &&
+        contact.number.includes(numberFilter)
     );
   }
 );
